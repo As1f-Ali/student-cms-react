@@ -43,7 +43,7 @@ function App() {
       courses={courses}
       />
 
-      <StatsDashboard students={students} />
+      <StatsDashboard students={filteredStudents} />
 
       <StudentList students={filteredStudents} />
     </>
