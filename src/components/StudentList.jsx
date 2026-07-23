@@ -1,6 +1,10 @@
 import StudentCard from "./StudentCard";
 
-function StudentList({ students }) {
+function StudentList({
+  students,
+  onDeleteStudent,
+  onEditStudent
+}) {
 
   if (students.length === 0) {
     return <p>No students found.</p>;
@@ -12,6 +16,8 @@ function StudentList({ students }) {
         <StudentCard
           key={student.id}
           student={student}
+          onDeleteStudent={onDeleteStudent}
+          onEditStudent={onEditStudent}
         />
       ))}
     </>
