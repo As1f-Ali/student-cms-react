@@ -1,26 +1,48 @@
-function StudentCard({ student, onDeleteStudent, onEditStudent }) {
+import Card from "./Card";
+
+function StudentCard({
+  student,
+  onDeleteStudent,
+  onEditStudent,
+  onViewStudent
+}) {
   return (
-    <div className="student-card">
-      <h2>{student.name}</h2>
+    <Card>
+      <div
+        className="student-card"
+        onClick={() => onViewStudent(student)}
+      >
+        <h2>{student.name}</h2>
 
-      <p>Age: {student.age}</p>
+        <p>Age: {student.age}</p>
 
-      <p>Email: {student.email}</p>
+        <p>Email: {student.email}</p>
 
-      <p>Course: {student.course}</p>
+        <p>Course: {student.course}</p>
 
-      <p>Enrollment Year: {student.enrollmentYear}</p>
+        <p>Enrollment Year: {student.enrollmentYear}</p>
 
-      <p>GPA: {student.gpa}</p>
+        <p>GPA: {student.gpa}</p>
 
-      <button onClick={() => onEditStudent(student)}>
-        Edit
-      </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onEditStudent(student);
+          }}
+        >
+          Edit
+        </button>
 
-      <button onClick={() => onDeleteStudent(student.id)}>
-        Delete
-      </button>
-    </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteStudent(student.id);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    </Card>
   );
 }
 

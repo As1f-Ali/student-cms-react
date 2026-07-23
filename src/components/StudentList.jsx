@@ -3,7 +3,8 @@ import StudentCard from "./StudentCard";
 function StudentList({
   students,
   onDeleteStudent,
-  onEditStudent
+  onEditStudent,
+  onViewStudent
 }) {
 
   if (students.length === 0) {
@@ -11,16 +12,17 @@ function StudentList({
   }
 
   return (
-    <>
+    <div className="student-list">
       {students.map((student) => (
         <StudentCard
           key={student.id}
           student={student}
           onDeleteStudent={onDeleteStudent}
           onEditStudent={onEditStudent}
+          onViewStudent={onViewStudent}
         />
       ))}
-    </>
+    </div>
   );
 }
 

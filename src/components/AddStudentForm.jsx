@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function AddStudentForm({ onAddStudent }) {
+function AddStudentForm({
+  onAddStudent,
+  onUpdateStudent,
+  editingStudent,
+  onCancelEdit
+}) {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -9,6 +14,28 @@ function AddStudentForm({ onAddStudent }) {
     enrollmentYear: "",
     gpa: ""
   });
+
+  useEffect(() => {
+    if (editingStudent) {
+      setFormData({
+        name: editingStudent.name,
+        age: editingStudent.age,
+        email: editingStudent.email,
+        course: editingStudent.course,
+        enrollmentYear: editingStudent.enrollmentYear,
+        gpa: editingStudent.gpa
+      });
+    } else {
+      setFormData({
+        name: "",
+        age: "",
+        email: "",
+        course: "",
+        enrollmentYear: "",
+        gpa: ""
+      });
+    }
+  }, [editingStudent]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -22,17 +49,23 @@ function AddStudentForm({ onAddStudent }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const newStudent = {
-      id: Date.now(),
-      name: formData.name,
-      age: Number(formData.age),
-      email: formData.email,
-      course: formData.course,
-      enrollmentYear: Number(formData.enrollmentYear),
-      gpa: Number(formData.gpa)
-    };
-
-    onAddStudent(newStudent);
+    if (editingStudent) {
+      onUpdateStudent({
+        ...editingStudent,
+        ...formData,
+        age: Number(formData.age),
+        enrollmentYear: Number(formData.enrollmentYear),
+        gpa: Number(formData.gpa)
+      });
+    } else {
+      onAddStudent({
+        id: Date.now(),
+        ...formData,
+        age: Number(formData.age),
+        enrollmentYear: Number(formData.enrollmentYear),
+        gpa: Number(formData.gpa)
+      });
+    }
 
     setFormData({
       name: "",
@@ -42,6 +75,8 @@ function AddStudentForm({ onAddStudent }) {
       enrollmentYear: "",
       gpa: ""
     });
+
+    onCancelEdit();
   }
 
   const isValid =
@@ -54,7 +89,9 @@ function AddStudentForm({ onAddStudent }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Student</h2>
+      <h2>
+        {editingStudent ? "Edit Student" : "Add Student"}
+      </h2>
 
       <input
         type="text"
@@ -106,8 +143,17 @@ function AddStudentForm({ onAddStudent }) {
       />
 
       <button type="submit" disabled={!isValid}>
-        Add Student
+        {editingStudent ? "Update Student" : "Add Student"}
       </button>
+
+      {editingStudent && (
+        <button
+          type="button"
+          onClick={onCancelEdit}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 }
