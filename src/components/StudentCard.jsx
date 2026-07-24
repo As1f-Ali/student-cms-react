@@ -14,15 +14,7 @@ function StudentCard({
       >
         <h2>{student.name}</h2>
 
-        <p>Age: {student.age}</p>
-
-        <p>Email: {student.email}</p>
-
         <p>Course: {student.course}</p>
-
-        <p>Enrollment Year: {student.enrollmentYear}</p>
-
-        <p>GPA: {student.gpa}</p>
 
         <button
           onClick={(e) => {
